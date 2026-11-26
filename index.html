@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Лекция 09 · Интерактивный курс и трекер прогресса</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="bg" aria-hidden="true">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+    <div class="particles" id="particles"></div>
+  </div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="nav">
+    <a href="#hero" class="brand">
+      <div class="brand-mark">09</div>
+      <div class="brand-text">
+        <b>FRONTEND COURSE</b>
+        <span>Лекция 09 · База знаний</span>
+      </div>
+    </a>
+
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-label="Открыть меню">
+      <span></span>
+    </button>
+
+    <nav class="nav-links" id="navLinks">
+      <a href="#lectures">Лекции (Аккордеон)</a>
+      <a href="#progress">Состояние курса</a>
+      <a href="#portfolio">Портфолио</a>
+      <a href="#quiz" class="nav-cta">Итоговый тест</a>
+    </nav>
+    <div class="progress-line" id="progressLine"></div>
+  </header>
+
+  <main>
+    <!-- ПЕРВЫЙ ЭКРАН -->
+    <section class="hero" id="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <div class="eyebrow">Лекция 09 · Интерактивный портал</div>
+          <h1>Все лекции курса с <span class="grad-text">видео и трекером</span> прогресса</h1>
+          <p class="lead">
+            Открывайте нужные модули в удобном аккордеоне, изучайте конспекты в форматах docx/txt, смотрите видеоуроки с YouTube и отмечайте пройденные темы.
+          </p>
+          <div class="hero-actions">
+            <a href="#lectures" class="btn btn-primary">Открыть лекции ↓</a>
+            <a href="#quiz" class="btn btn-ghost">Пройти тест</a>
+          </div>
+          <div class="hero-stats">
+            <div class="stat"><b>8</b><span>полных лекций</span></div>
+            <div class="stat"><b>8</b><span>видеоуроков YouTube</span></div>
+            <div class="stat"><b id="heroPct">0%</b><span>прочитано вами</span></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="hero-card">
+            <div class="terminal">
+              <div class="terminal-bar">
+                <span class="dot r"></span>
+                <span class="dot a"></span>
+                <span class="dot g"></span>
+                <span class="terminal-title">course-state.js</span>
+              </div>
+              <div class="terminal-body">
+                <div class="tline"><span class="tc">// Состояние изучения курса</span></div>
+                <div class="tline"><span class="tk">const</span> <span class="tf">courseProgress</span> = {</div>
+                <div class="tline">&nbsp;&nbsp;modules: <span class="tn">8</span>,</div>
+                <div class="tline">&nbsp;&nbsp;formats: [<span class="ts">'docx'</span>, <span class="ts">'txt'</span>, <span class="ts">'YouTube'</span>],</div>
+                <div class="tline">&nbsp;&nbsp;topics: [<span class="ts">'HTML/CSS'</span>, <span class="ts">'JS'</span>, <span class="ts">'Git'</span>, <span class="ts">'Apache'</span>],</div>
+                <div class="tline">&nbsp;&nbsp;storage: <span class="ts">'localStorage (автосохранение)'</span></div>
+                <div class="tline">}; <span class="cursor"></span></div>
+              </div>
+            </div>
+            <div class="hero-note">
+              <b>Подсказка:</b>
+              <span>отмечайте галочку «Прочитано» внутри каждой лекции — шкала прогресса ниже обновится автоматически.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- СОСТОЯНИЕ И ПРОГРЕСС (%) -->
+    <section id="progress" class="reveal" style="padding-bottom: 20px;">
+      <div class="wrap">
+        <div class="card state-card">
+          <div class="state-top">
+            <div>
+              <div class="eyebrow" style="margin-bottom: 6px;">Состояние обучения</div>
+              <h3>Прочитано: <span id="readCount">0</span> из <span id="totalCount">8</span> лекций</h3>
+              <p style="color: var(--muted); font-size: .88rem; margin-top: 4px;">Прогресс сохраняется в памяти браузера даже после перезагрузки страницы.</p>
+            </div>
+            <div class="state-right">
+              <div class="state-pct" id="statePct">0%</div>
+              <button type="button" class="mini-btn" id="resetProgress">Сбросить</button>
+            </div>
+          </div>
+          <div class="state-bar">
+            <i id="stateBarFill"></i>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ЛЕКЦИИ-АККОРДЕОН («БУРГЕР») С ВИДЕО И ФАЙЛАМИ -->
+    <section id="lectures" class="reveal">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">Программа семестра · Модули 01–08</div>
+          <h2>Лекции, конспекты и видеоуроки</h2>
+          <p class="lead">Нажмите на заголовок лекции (бургер-список), чтобы раскрыть конспект, скачать материалы docx/txt и посмотреть видео.</p>
+        </div>
+
+        <div class="accordion-list" id="accordionList"></div>
+      </div>
+    </section>
+
+    <!-- ПОРТФОЛИО -->
+    <section id="portfolio" class="reveal">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">Практика · Работы за семестр</div>
+          <h2>Портфолио проектов</h2>
+          <p class="lead">Реализованные проекты с применением семантики, JS-компонентов, API, Git и локального сервера Apache.</p>
+        </div>
+
+        <div class="grid-3">
+          <article class="card hoverable">
+            <span class="badge cyan">Проект 01</span>
+            <h3 style="margin-top: 12px;">Адаптивный сайт-визитка</h3>
+            <p style="color:var(--muted); font-size:.9rem; margin: 10px 0 16px;">
+              Семантическая вёрстка с соблюдением доступности (WCAG), контраста и адаптивной сетки Flexbox/Grid.
+            </p>
+            <div class="skill-tags" style="margin:0;">
+              <span class="tag">HTML5</span>
+              <span class="tag">CSS3</span>
+              <span class="tag">A11y</span>
+            </div>
+          </article>
+
+          <article class="card hoverable">
+            <span class="badge mag">Проект 02</span>
+            <h3 style="margin-top: 12px;">Интерактивный портал лекций</h3>
+            <p style="color:var(--muted); font-size:.9rem; margin: 10px 0 16px;">
+              Аккордеон-меню с ARIA-атрибутами, встроенными видео YouTube, скачиванием конспектов и трекером прогресса в localStorage.
+            </p>
+            <div class="skill-tags" style="margin:0;">
+              <span class="tag">Vanilla JS</span>
+              <span class="tag">LocalStorage</span>
+              <span class="tag">DOM API</span>
+            </div>
+          </article>
+
+          <article class="card hoverable">
+            <span class="badge lime">Проект 03</span>
+            <h3 style="margin-top: 12px;">Деплой и локальный сервер</h3>
+            <p style="color:var(--muted); font-size:.9rem; margin: 10px 0 16px;">
+              Настройка виртуальных хостов в Apache, работа с запросами fetch/JSON и публикация репозитория через Git на GitHub Pages.
+            </p>
+            <div class="skill-tags" style="margin:0;">
+              <span class="tag">Git</span>
+              <span class="tag">Apache</span>
+              <span class="tag">Fetch API</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ИТОГОВЫЙ ТЕСТ -->
+    <section id="quiz" class="reveal">
+      <div class="wrap">
+        <div class="section-head" style="text-align: center;">
+          <div class="eyebrow">Проверка знаний</div>
+          <h2>Итоговый тест по курсу</h2>
+          <p class="lead" style="margin: 0 auto;">Проверьте знания по HTML, CSS, JavaScript, Git и серверу Apache.</p>
+        </div>
+
+        <div class="quiz-shell">
+          <div class="quiz-top">
+            <span class="quiz-count" id="quizCount">Вопрос 1 / 10</span>
+            <div class="quiz-progress"><i id="quizBar"></i></div>
+            <span class="quiz-count" id="quizScore">Верно: 0</span>
+          </div>
+
+          <div class="card quiz-card" id="quizCard"></div>
+
+          <div class="quiz-actions">
+            <button type="button" class="btn btn-ghost" id="quizRestart">Начать заново</button>
+            <button type="button" class="btn btn-primary" id="quizNext" disabled>Следующий вопрос →</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-grid">
+      <div>
+        <b>FRONTEND COURSE · Лекция 09</b>
+        <p style="margin-top: 6px;">Интерактивная база лекций с видеоуроками, файлами конспектов и трекером прогресса.</p>
+      </div>
+      <div class="footer-links">
+        <a href="#hero">Наверх</a>
+        <a href="#progress">Прогресс</a>
+        <a href="#lectures">Лекции</a>
+        <a href="#quiz">Тест</a>
+      </div>
+    </div>
+  </footer>
+
+  <button class="to-top" id="toTop" aria-label="Наверх">↑</button>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
